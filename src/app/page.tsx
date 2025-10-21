@@ -319,7 +319,7 @@ export default function Chat() {
                 )}
                 <div ref={messagesEndRef} />
             </div>            {/* Floating Input Area */}
-            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[800px] max-w-[90%]">
+            <div className="fixed bottom-3 left-1/2 transform -translate-x-1/2 w-[800px] max-w-[90%]">
                 <div className="  px-6 py-4">
                     <div className="space-y-2">
                         <div className="flex gap-3">
