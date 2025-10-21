@@ -12,7 +12,6 @@ export default function Chat() {
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const [selectedDb, setSelectedDb] = useState('development');
     const [showSettings, setShowSettings] = useState(false);
-    const [showQuickActions, setShowQuickActions] = useState(true);
 
     const suggestedQueries = [
         { icon: <Users className="w-4 h-4" />, text: "Show all active users", query: "Show me all active users in the system" },
@@ -338,6 +337,11 @@ export default function Chat() {
                                 <span className="hidden sm:inline">Send</span>
                                 <Send className="w-4 h-4" />
                             </button>
+                            {copiedId && (
+                                <div className="ml-2 px-3 py-2 bg-white/10 text-xs rounded-full text-white/90 flex items-center">
+                                    Copied
+                                </div>
+                            )}
                         </div>
                         <p className="text-xs text-white/50 text-center">
                             Connected to: <span className="text-white/70 font-medium">{selectedDb}</span>

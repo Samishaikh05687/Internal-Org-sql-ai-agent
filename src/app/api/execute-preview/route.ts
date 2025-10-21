@@ -1,6 +1,5 @@
 // src/api/execute-preview/route.ts
 import { db } from '@/db/db';
-import { format as sqlFormat } from 'sql-formatter';
 
 // IMPORTANT: this file expects the same `pendingPreviews` map available in memory.
 // Since Node/Edge functions are isolated, in production you should persist previews in Redis or DB.
@@ -15,12 +14,11 @@ import type { PreviewEntry } from '@/lib/preview-types';
 
 declare global {
     // attach to global to share across modules in same process
-    // eslint-disable-next-line no-var
-    var __PENDING_PREVIEWS__: Map<string, any> | undefined;
+    var __PENDING_PREVIEWS__: Map<string, PreviewEntry> | undefined;
 }
 
-if (!globalThis.__PENDING_PREVIEWS__) globalThis.__PENDING_PREVIEWS__ = new Map<string, any>();
-const pendingPreviews = globalThis.__PENDING_PREVIEWS__;
+if (!globalThis.__PENDING_PREVIEWS__) globalThis.__PENDING_PREVIEWS__ = new Map<string, PreviewEntry>();
+const pendingPreviews = globalThis.__PENDING_PREVIEWS__ as Map<string, PreviewEntry>;
 
 /**
  * Guardrail regex - must be consistent
@@ -69,7 +67,7 @@ const EMAIL_RE = /([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
 const PHONE_RE = /(\+?\d{1,3}[-.\s]?(\d{2,4})[-.\s]?\d{3,4}[-.\s]?\d{3,4})/g;
 const CREDIT_CARD_RE = /\b(?:\d[ -]*?){13,16}\b/g;
 
-function maskValue(v: any) {
+function maskValue(v: unknown) {
     if (typeof v !== 'string') return v;
     let s = v;
     s = s.replace(EMAIL_RE, (m, a) => `${a[0]}***@***`);
@@ -77,8 +75,8 @@ function maskValue(v: any) {
     s = s.replace(CREDIT_CARD_RE, '****-CARD-****');
     return s;
 }
-function maskRow(row: Record<string, any>) {
-    const out: Record<string, any> = {};
+function maskRow(row: Record<string, unknown>) {
+    const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(row)) {
         out[k] = maskValue(v);
     }
@@ -109,8 +107,8 @@ export async function POST(req: Request) {
         }
 
         // Execute
-        const rows = await db.run(sql);
-        const maskedRows = Array.isArray(rows) ? rows.map((r: any) => maskRow(r)) : rows;
+    const rows = (await db.run(sql)) as unknown;
+    const maskedRows = Array.isArray(rows) ? (rows as unknown[]).map((r) => maskRow(r as Record<string, unknown>)) : rows;
 
         // Best-effort audit log
         try {

@@ -54,7 +54,8 @@ const EMAIL_RE = /([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
 const PHONE_RE = /(\+?\d{1,3}[-.\s]?(\d{2,4})[-.\s]?\d{3,4}[-.\s]?\d{3,4})/g;
 const CREDIT_CARD_RE = /\b(?:\d[ -]*?){13,16}\b/g;
 
-function maskValue(v: any) {
+function maskValue(v: unknown) {
+    // only operate on strings; otherwise return the original value
     if (typeof v !== 'string') return v;
     let s = v;
     s = s.replace(EMAIL_RE, (m, a) => `${a[0]}***@***`);
@@ -63,8 +64,8 @@ function maskValue(v: any) {
     return s;
 }
 
-function maskRow(row: Record<string, any>) {
-    const out: Record<string, any> = {};
+function maskRow(row: Record<string, unknown>) {
+    const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(row)) {
         out[k] = maskValue(v);
     }
@@ -179,7 +180,7 @@ function heuristicExplainSQL(sql: string) {
     const orderByMatch = s.match(/\border\s+by\s+(.+?)(?:\s+limit|;|$)/i);
     const limitMatch = s.match(/\blimit\s+(\d+)/i);
 
-    let parts: string[] = [];
+    const parts: string[] = [];
 
     if (selectMatch) {
         parts.push(`Selecting: ${selectMatch[1].trim()}`);
@@ -483,10 +484,10 @@ CREATE TABLE sales (
 
                     // Execute
                     console.log('Query Executing:', toRun);
-                    const rows = await db.run(toRun);
+                    const rows = (await db.run(toRun)) as unknown;
 
                     // Mask PII fields in results
-                    const maskedRows = Array.isArray(rows) ? rows.map((r: any) => maskRow(r)) : rows;
+                    const maskedRows = Array.isArray(rows) ? (rows as unknown[]).map((r) => maskRow(r as Record<string, unknown>)) : rows;
 
                     // Best-effort audit log
                     try {
