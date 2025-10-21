@@ -1,8 +1,6 @@
-# Internal ORD SQL Query Tool
+# Internal Org SQL Query Tool
 
-An AI-assisted internal SQL exploration tool designed for **non-technical business and operations teams** to query live ORD data with natural language.
-
----
+An AI-driven internal SQL query assistant purpose-built for Non-Tech businesses, sales operations, and analytics teams to securely access and explore live ORD data using natural language prompts.
 
 ## 🚀 Tech Stack
 
