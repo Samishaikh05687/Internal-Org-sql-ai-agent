@@ -71,14 +71,3 @@ WHERE sale_date >= DATE('now','-1 month')
 GROUP BY product_id;
 ```
 
----
-
-## ✅ Status
-
-🔄 Phase: **Internal Testing**  → Target Users: **Sales Ops / Business Analysts**
-
----
-
-## 📄 License
-
-Internal Proprietary — Do **Not** Distribute Outside Organization.
