@@ -1,0 +1,158 @@
+[
+    {
+        "parts": [
+            {
+                "type": "text",
+                "text": "can you show me the list of all products?"
+            }
+        ],
+        "id": "Iui9o4wgtirWFIsz",
+        "role": "user"
+    },
+    {
+        "id": "9CPWA1hXfJYTzNqe",
+        "role": "assistant",
+        "parts": [
+            {
+                "type": "step-start"
+            },
+            {
+                "type": "tool-schema",
+                "toolCallId": "call_oVOCnTG9XDjcXMea65jFB48J",
+                "state": "output-available",
+                "input": {},
+                "output": "CREATE TABLE products (\n\tid integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\tname text NOT NULL,\n\tcategory text NOT NULL,\n\tprice real NOT NULL,\n\tstock integer DEFAULT 0 NOT NULL,\n\tcreated_at text DEFAULT CURRENT_TIMESTAMP\n)\n\nCREATE TABLE sales (\n\tid integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\tproduct_id integer NOT NULL,\n\tquantity integer NOT NULL,\n\ttotal_amount real NOT NULL,\n\tsale_date text DEFAULT CURRENT_TIMESTAMP,\n\tcustomer_name text NOT NULL,\n\tregion text NOT NULL,\n\tFOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE no action ON DELETE no action\n)",
+                "callProviderMetadata": {
+                    "openai": {
+                        "itemId": "fc_0ef1e0b24b5aae450068f0f30f93148193ae4a276478cc5bd2"
+                    }
+                }
+            },
+            {
+                "type": "step-start"
+            },
+            {
+                "type": "tool-db",
+                "toolCallId": "call_OMNBAikhEjRAixvTi6joMW60",
+                "state": "output-available",
+                "input": {
+                    "query": "SELECT * FROM products;"
+                },
+                "output": {
+                    "columns": [
+                        "id",
+                        "name",
+                        "category",
+                        "price",
+                        "stock",
+                        "created_at"
+                    ],
+                    "columnTypes": [
+                        "INTEGER",
+                        "TEXT",
+                        "TEXT",
+                        "REAL",
+                        "INTEGER",
+                        "TEXT"
+                    ],
+                    "rows": [
+                        [
+                            1,
+                            "Laptop",
+                            "Electronics",
+                            999.99,
+                            50,
+                            "2025-10-16 13:09:04"
+                        ],
+                        [
+                            2,
+                            "Mouse",
+                            "Electronics",
+                            25.99,
+                            200,
+                            "2025-10-16 13:09:04"
+                        ],
+                        [
+                            3,
+                            "Keyboard",
+                            "Electronics",
+                            75,
+                            150,
+                            "2025-10-16 13:09:04"
+                        ],
+                        [
+                            4,
+                            "Monitor",
+                            "Electronics",
+                            299.99,
+                            75,
+                            "2025-10-16 13:09:04"
+                        ],
+                        [
+                            5,
+                            "Desk Chair",
+                            "Furniture",
+                            199.99,
+                            40,
+                            "2025-10-16 13:09:04"
+                        ],
+                        [
+                            6,
+                            "Desk",
+                            "Furniture",
+                            399.99,
+                            30,
+                            "2025-10-16 13:09:04"
+                        ],
+                        [
+                            7,
+                            "Notebook",
+                            "Stationery",
+                            5.99,
+                            500,
+                            "2025-10-16 13:09:04"
+                        ],
+                        [
+                            8,
+                            "Pen Set",
+                            "Stationery",
+                            12.99,
+                            300,
+                            "2025-10-16 13:09:04"
+                        ]
+                    ],
+                    "rowsAffected": 0,
+                    "lastInsertRowid": null
+                },
+                "callProviderMetadata": {
+                    "openai": {
+                        "itemId": "fc_0ef1e0b24b5aae450068f0f315d0588193b166dc97b74fc089"
+                    }
+                }
+            },
+            {
+                "type": "step-start"
+            },
+            {
+                "type": "text",
+                "text": "Here's a list of all products in the database:\n\n| ID | Name       | Category    | Price  | Stock | Created At          |\n|----|------------|-------------|--------|-------|---------------------|\n| 1  | Laptop     | Electronics | 999.99 | 50    | 2025-10-16 13:09:04 |\n| 2  | Mouse      | Electronics | 25.99  | 200   | 2025-10-16 13:09:04 |\n| 3  | Keyboard   | Electronics | 75.00  | 150   | 2025-10-16 13:09:04 |\n| 4  | Monitor    | Electronics | 299.99 | 75    | 2025-10-16 13:09:04 |\n| 5  | Desk Chair | Furniture   | 199.99 | 40    | 2025-10-16 13:09:04 |\n| 6  | Desk       | Furniture   | 399.99 | 30    | 2025-10-16 13:09:04 |\n| 7  | Notebook   | Stationery  | 5.99   | 500   | 2025-10-16 13:09:04 |\n| 8  | Pen Set    | Stationery  | 12.99  | 300   | 2025-10-16 13:09:04 |\n\nIf you need more details or specific information, feel free to ask!",
+                "providerMetadata": {
+                    "openai": {
+                        "itemId": "msg_0ef1e0b24b5aae450068f0f31e7a548193972ea608c6dfd3c6"
+                    }
+                },
+                "state": "done"
+            }
+        ]
+    },
+    {
+        "parts": [
+            {
+                "type": "text",
+                "text": "hi"
+            }
+        ],
+        "id": "DpY0GI5EFQVfiSW2",
+        "role": "user"
+    }
+]
